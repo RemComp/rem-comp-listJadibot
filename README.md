@@ -19,7 +19,11 @@ Oleh karena itu, Semua masalah/bug/error yang terjadi di Bot RemComp, bisa dilap
 > 
 > Jika ada Pertanyaan/Hal lain, bisa diskusi di [halaman diskusi](https://github.com/DwiRizqiH/rem-comp-listJadibot/discussions)
 
+## Important
 
+Please report politely and professionally on the Issue Page
+
+> Harap melapor dengan sopan dan profesional di Halaman Issue
 
 ## COPYRIGHT
 
@@ -58,9 +62,3 @@ For questions or inquiries about Bot Rem or the JadiBot (Web) version, please co
 > Untuk informasi lebih lanjut tentang Lisensi MIT, silakan kunjungi https://opensource.org/licenses/MIT.
 >
 > Untuk pertanyaan atau pertanyaan tentang Bot Rem atau versi JadiBot (Web), silakan hubungi Rem Company di info@remcp.com.
-
-## Important
-
-Please report politely and professionally on the Issue Page
-
-> Harap melapor dengan sopan dan profesional di Halaman Issue
