@@ -1,0 +1,64 @@
+<div class="page-header d-print-none">
+	<div class="container-xl">
+		<div class="row g-2 align-items-center">
+			<div class="col">
+				<h2 class="page-title">
+					Server <%= serverDefined %>
+				</h2>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Page body -->
+<div class="page-body">
+	<div class="container-xl">
+		<div class="row row-cards">
+			<div class="col-12">
+				<div class="card">
+					<div class="table-responsive">
+						<table class="table table-vcenter card-table">
+							<thead>
+								<tr>
+									<th>Bot Id</th>
+									<th>Owner</th>
+									<th>Status</th>
+								</tr>
+							</thead>
+							<tbody>
+								<% rows.forEach(row => { %>
+								<tr>
+									<td>
+										<div class="d-flex py-1 align-items-center">
+											<div class="flex-fill">
+												<div class="font-weight-medium"><a href="https://wa.me/<%= row?.access?.user?.id?.split(':')[0] %>" target="_blank" rel="noopener" class="text-reset">Bot | <%= row?.access?.user?.id?.split(':')[0] %></a></div>
+												<div class="text-muted"><a href="https://wa.me/<%= row?.access?.user?.id?.split(':')[0] %>" target="_blank" rel="noopener"><%= row?.virtualBotId %></a></div>
+											</div>
+										</div>
+									</td>
+									<td>
+										<div class="text-muted"><a href="https://wa.me/<%= row?.id?.replace('@s.whatsapp.net', '') %>" target="_blank" rel="noopener" class="text-reset"><%= row?.id?.replace('@s.whatsapp.net', '') %></a></div>
+									</td>
+									<td>
+										<div class="row align-items-center">
+											<div class="col-auto">
+												<span class="list-inline-item status-indicator status-green status-indicator-animated">
+													<span class="status-indicator-circle"></span>
+													<span class="status-indicator-circle"></span>
+													<span class="status-indicator-circle"></span>
+												</span>
+											</div>
+											<div class="col-auto">
+												<span>Online</span>
+											</div>
+										</div>
+									</td>
+								</tr>
+								<% }); %>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
