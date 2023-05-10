@@ -39,7 +39,7 @@ The JadiBot (Web) version of Bot Rem may be freely used, modified, and distribut
 
 For more information about the MIT License, please visit https://opensource.org/licenses/MIT.
 
-For questions or inquiries about Bot Rem or the JadiBot (Web) version, please contact Rem Company at info@remcompany.com.
+For questions or inquiries about Bot Rem or the JadiBot (Web) version, please contact Rem Company at info@remcp.com.
 
 ## Important
 
