@@ -16,8 +16,33 @@ router.get('/', async (req, res) => {
 })
 
 router.post(`/webhook/${process.env.WEBHOOK_SECRET_DONATENOTIF}/donate-notif`, async (req, res) => {
-    await axios.post(`http://${process.env.CORE_BOT_PORT}/webhook/${process.env.WEBHOOK_SECRET_DONATENOTIF}/donate-notif`, req.body)
+    await axios.post(`http://localhost:${process.env.CORE_BOT_PORT}/webhook/${process.env.WEBHOOK_SECRET_DONATENOTIF}/donate-notif`, req.body)
     return res.json({ status: true })
+})
+
+router.post(`/webhook/${process.env.WEBHOOK_SECRET_CGWINNER}/cg-winner`, async (req, res) => {
+    const serverSend = `http://localhost:${req.body.server == 'CORE' ? process.env.CORE_BOT_PORT : process.env[`${req.body.server}_BOT_PORT`]}/access`
+
+    let winner = undefined
+    let textFormattedWinner = `Score List:\n`
+    const sortedData = Object.values(JSON.parse(req.body.data)).sort((a, b) => b.c - a.c)
+    for(let i = 0; i < sortedData.length; i++) {
+        const idUser = sortedData[i].u.replace('@s.whatsapp.net', '')
+        const nameUser = sortedData[i].n
+        if(sortedData[i].i == req.body.winner) {
+            winner = { idUser, nameUser }
+        }
+        textFormattedWinner += `\n${i + 1}. wa.me/${idUser} *(${nameUser})* - ${sortedData[i].c}`
+    }
+
+    const data = {
+        key: process.env.BOT_SECRET_ACCESS,
+        id: req.body.botId || 'CORE',
+        method: 'sendMessage',
+        content: [req.body.groupId, { text: `Selamat kepada @${winner.idUser} *(${winner.nameUser})* telah memenangkan click game 🎉\n\n${textFormattedWinner}` }, { quoted: JSON.parse(req.body.msgMetadata) }]
+    }
+    const result = await axios.post(serverSend, data)
+    return res.json({ status: true, result: result.data })
 })
 
 app.use('/', router);
