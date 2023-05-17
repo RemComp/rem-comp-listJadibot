@@ -26,23 +26,26 @@ router.post(`/webhook/${process.env.WEBHOOK_SECRET_CGWINNER}/cg-winner`, async (
     let winner = undefined
     let textFormattedWinner = `Score List:\n`
     const sortedData = Object.values(JSON.parse(req.body.data)).sort((a, b) => b.c - a.c)
+    let formattedData = []
     for(let i = 0; i < sortedData.length; i++) {
-        const idUser = sortedData[i].u.replace('@s.whatsapp.net', '')
+        const idUser = sortedData[i].u
         const nameUser = sortedData[i].n
         if(sortedData[i].i == req.body.winner) {
             winner = { idUser, nameUser }
         }
-        textFormattedWinner += `\n${i + 1}. wa.me/${idUser} *(${nameUser})* - ${sortedData[i].c}`
+        textFormattedWinner += `\n${i + 1}. wa.me/${idUser.replace('@s.whatsapp.net', '')} *(${nameUser})* - ${sortedData[i].c}`
+        formattedData.push({ idUser, nameUser, score: sortedData[i].c })
     }
 
     const data = {
         key: process.env.BOT_SECRET_ACCESS,
         id: req.body.botId || 'CORE',
         method: 'sendMessage',
-        content: [req.body.groupId, { text: `Selamat kepada @${winner.idUser} *(${winner.nameUser})* telah memenangkan click game 🎉\n\n${textFormattedWinner}` }, { quoted: JSON.parse(req.body.msgMetadata) }]
+        content: [req.body.groupId, { text: `Selamat kepada @${winner.idUser.replace('@s.whatsapp.net', '')} *(${winner.nameUser})* telah memenangkan click game 🎉\n\n${textFormattedWinner}` }, { quoted: JSON.parse(req.body.msgMetadata) }]
     }
     const result = await axios.post(serverSend, data)
-    return res.json({ status: true, result: result.data })
+    const resultHighScore = await axios.post(`http://localhost:${process.env.CORE_BOT_PORT}/api/post/addClickGamesLeaderboard`, { key: process.env.WEBHOOK_SECRET_CGLB, data: formattedData } )
+    return res.json({ status: true, result: result.data, resultHighScore: resultHighScore.data })
 })
 
 app.use('/', router);
@@ -58,9 +61,11 @@ setInterval(async () => {
 }, 60000)
 
 async function setAllJadibotData () {
-    global._jadibot1 = (await axios.post(`http://localhost:${process.env.JADIBOT1_BOT_PORT}/get-jadibot`)).data
-    global._jadibot2 = (await axios.post(`http://localhost:${process.env.JADIBOT2_BOT_PORT}/get-jadibot`)).data
-    global._jadibot3 = (await axios.post(`http://localhost:${process.env.JADIBOT3_BOT_PORT}/get-jadibot`)).data
-    global._jadibot4 = (await axios.post(`http://localhost:${process.env.JADIBOT4_BOT_PORT}/get-jadibot`)).data
+    setTimeout(async () => {
+        global._jadibot1 = (await axios.post(`http://localhost:${process.env.JADIBOT1_BOT_PORT}/get-jadibot`)).data
+        global._jadibot2 = (await axios.post(`http://localhost:${process.env.JADIBOT2_BOT_PORT}/get-jadibot`)).data
+        global._jadibot3 = (await axios.post(`http://localhost:${process.env.JADIBOT3_BOT_PORT}/get-jadibot`)).data
+        global._jadibot4 = (await axios.post(`http://localhost:${process.env.JADIBOT4_BOT_PORT}/get-jadibot`)).data
+    }, 10000)
     return true
 }
