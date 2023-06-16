@@ -12,7 +12,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/', express.static(__dirname + '/src'));
 
 router.get('/', async (req, res) => {
-    return res.render('pages/index', { data: [global._jadibot1, global._jadibot2, global._jadibot3, global._jadibot4] })
+    return res.render('pages/index', { data: [global._jadibot1, global._jadibot2, global._jadibot3, global._jadibot4, global._jadibot5, global._jadibot6, global._jadibot7, global._jadibot8, global._jadibot9, global._jadibot10] })
 })
 
 router.post(`/webhook/${process.env.WEBHOOK_SECRET_DONATENOTIF}/donate-notif`, async (req, res) => {
@@ -62,10 +62,77 @@ setInterval(async () => {
 
 async function setAllJadibotData () {
     setTimeout(async () => {
-        global._jadibot1 = (await axios.post(`http://localhost:${process.env.JADIBOT1_BOT_PORT}/get-jadibot`)).data
-        global._jadibot2 = (await axios.post(`http://localhost:${process.env.JADIBOT2_BOT_PORT}/get-jadibot`)).data
-        global._jadibot3 = (await axios.post(`http://localhost:${process.env.JADIBOT3_BOT_PORT}/get-jadibot`)).data
-        global._jadibot4 = (await axios.post(`http://localhost:${process.env.JADIBOT4_BOT_PORT}/get-jadibot`)).data
+        async function getJadibot1 () {
+            try {
+                global._jadibot1 = (await axios.post(`http://localhost:${process.env.JADIBOT1_BOT_PORT}/get-jadibot`))?.data
+            } catch (err) {
+                console.error(err)
+            }
+        }
+        async function getJadibot2 () {
+            try {
+                global._jadibot2 = (await axios.post(`http://localhost:${process.env.JADIBOT2_BOT_PORT}/get-jadibot`))?.data
+            } catch (err) {
+                console.error(err)
+            }
+        }
+        async function getJadibot3 () {
+            try {
+                global._jadibot3 = (await axios.post(`http://localhost:${process.env.JADIBOT3_BOT_PORT}/get-jadibot`))?.data
+            } catch (err) {
+                console.error(err)
+            }
+        }
+        async function getJadibot4 () {
+            try {
+                global._jadibot4 = (await axios.post(`http://localhost:${process.env.JADIBOT4_BOT_PORT}/get-jadibot`))?.data
+            } catch (err) {
+                console.error(err)
+            }
+        }
+        async function getJadibot5 () {
+            try {
+                global._jadibot5 = (await axios.post(`http://localhost:${process.env.JADIBOT5_BOT_PORT}/get-jadibot`))?.data
+            } catch (err) {
+                console.error(err)
+            }
+        }
+        async function getJadibot6 () {
+            try {
+                global._jadibot6 = (await axios.post(`http://localhost:${process.env.JADIBOT6_BOT_PORT}/get-jadibot`))?.data
+            } catch (err) {
+                console.error(err)
+            }
+        }
+        async function getJadibot7 () {
+            try {
+                global._jadibot7 = (await axios.post(`http://localhost:${process.env.JADIBOT7_BOT_PORT}/get-jadibot`))?.data
+            } catch (err) {
+                console.error(err)
+            }
+        }
+        async function getJadibot8 () {
+            try {
+                global._jadibot8 = (await axios.post(`http://localhost:${process.env.JADIBOT8_BOT_PORT}/get-jadibot`))?.data
+            } catch (err) {
+                console.error(err)
+            }
+        }
+        async function getJadibot9 () {
+            try {
+                global._jadibot9 = (await axios.post(`http://localhost:${process.env.JADIBOT9_BOT_PORT}/get-jadibot`))?.data
+            } catch (err) {
+                console.error(err)
+            }
+        }
+        async function getJadibot10 () {
+            try {
+                global._jadibot10 = (await axios.post(`http://localhost:${process.env.JADIBOT10_BOT_PORT}/get-jadibot`))?.data
+            } catch (err) {
+                console.error(err)
+            }
+        }
+        Promise.all([getJadibot1(), getJadibot2(), getJadibot3(), getJadibot4(), getJadibot5(), getJadibot6(), getJadibot7(), getJadibot8(), getJadibot9(), getJadibot10()])
     }, 10000)
     return true
 }
