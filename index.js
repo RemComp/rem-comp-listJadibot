@@ -48,6 +48,11 @@ router.post(`/webhook/${process.env.WEBHOOK_SECRET_CGWINNER}/cg-winner`, async (
     return res.json({ status: true, result: result.data, resultHighScore: resultHighScore.data })
 })
 
+router.post(`/webhook/${process.env.WEBHOOK_SECRET_GITHUBPUSH}/github/:repoName`, async (req, res) => {
+    await axios.post(`http://localhost:${process.env.CORE_BOT_PORT}/webhook/${process.env.WEBHOOK_SECRET_GITHUBPUSH}/github/${req.params.repoName}`, req.body)
+    return res.json({ status: true })
+})
+
 app.use('/', router);
 app.set('port', (process.env.PORT))
 
