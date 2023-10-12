@@ -12,7 +12,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/', express.static(__dirname + '/src'));
 
 router.get('/', async (req, res) => {
-    return res.render('pages/index', { data: [global._jadibot1, global._jadibot2, global._jadibot3, global._jadibot4, global._jadibot5, global._jadibot6, global._jadibot7, global._jadibot8, global._jadibot9, global._jadibot10] })
+    return res.render('pages/index', { data: [global._jadibot1, global._jadibot2, global._jadibot3, global._jadibot4, global._jadibot5, global._jadibot6, global._jadibot7, global._jadibot8, global._jadibot9] })
 })
 
 router.post(`/webhook/${process.env.WEBHOOK_SECRET_DONATENOTIF}/donate-notif`, async (req, res) => {
@@ -130,14 +130,7 @@ async function setAllJadibotData () {
                 console.error(err)
             }
         }
-        async function getJadibot10 () {
-            try {
-                global._jadibot10 = (await axios.post(`http://localhost:${process.env.JADIBOT10_BOT_PORT}/get-jadibot`))?.data
-            } catch (err) {
-                console.error(err)
-            }
-        }
-        Promise.all([getJadibot1(), getJadibot2(), getJadibot3(), getJadibot4(), getJadibot5(), getJadibot6(), getJadibot7(), getJadibot8(), getJadibot9(), getJadibot10()])
+        Promise.all([getJadibot1(), getJadibot2(), getJadibot3(), getJadibot4(), getJadibot5(), getJadibot6(), getJadibot7(), getJadibot8(), getJadibot9()])
     }, 10000)
     return true
 }
