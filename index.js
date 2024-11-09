@@ -37,11 +37,16 @@ router.post(`/webhook/${process.env.WEBHOOK_SECRET_CGWINNER}/cg-winner`, async (
         formattedData.push({ idUser, nameUser, score: sortedData[i].c })
     }
 
-    const data = {
+    const parsedQuoted = JSON.parse(req.body.msgMetadata)
+    let data = {
         key: process.env.BOT_SECRET_ACCESS,
         id: req.body.botId || 'CORE',
         method: 'sendMessage',
-        content: [req.body.groupId, { text: `Selamat kepada @${winner.idUser.replace('@s.whatsapp.net', '')} *(${winner.nameUser})* telah memenangkan click game 🎉\n\n${textFormattedWinner}` }, { quoted: JSON.parse(req.body.msgMetadata) }]
+        content: [req.body.groupId, { text: `Selamat kepada @${winner.idUser.replace('@s.whatsapp.net', '')} *(${winner.nameUser})* telah memenangkan click game 🎉\n\n${textFormattedWinner}` }, { quoted: parsedQuoted }]
+    }
+    if(req.body.server == 'CORE') {
+        data.method = 'sendTextWithMentions'
+        data.content = [req.body.groupId, `Selamat kepada @${winner.idUser.replace('@s.whatsapp.net', '')} *(${winner.nameUser})* telah memenangkan click game 🎉\n\n${textFormattedWinner}`, { quoted: parsedQuoted }]
     }
     const result = await axios.post(serverSend, data)
     const resultHighScore = await axios.post(`http://localhost:${process.env.CORE_BOT_PORT}/api/post/addClickGamesLeaderboard`, { key: process.env.WEBHOOK_SECRET_CGLB, data: formattedData } )
